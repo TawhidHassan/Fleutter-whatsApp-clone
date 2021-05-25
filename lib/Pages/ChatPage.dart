@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsapp_clone/CustomUi/CustomCard.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -15,6 +16,11 @@ class _ChatPageState extends State<ChatPage> {
        },
        child: Icon(Icons.chat),
      ),
+      body: ListView(
+        children: [
+          CustomCard(),
+        ],
+      ),
     );
   }
 }
