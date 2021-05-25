@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsapp_clone/Pages/ChatPage.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           controller: _controller,
           children: [
             Text("STATUS"),
-            Text("STATUS"),
+            ChatPage(),
             Text("STATUS"),
             Text("Calls"),
           ],
