@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whatsapp_clone/HomePage.dart';
+import 'package:flutter_whatsapp_clone/Screens/HomeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,9 +13,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
-      home: HomePage(),
+      home: HomeScreen(),
+
     );
   }
 }
