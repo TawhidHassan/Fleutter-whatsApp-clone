@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
+import 'package:flutter_whatsapp_clone/Pages/IndividualPage.dart';
 
 class CustomCard extends StatelessWidget {
-  // const CustomCard({Key key, this.chatModel, this.sourchat}) : super(key: key);
-
+  const CustomCard({Key key, this.chatModel,this.sourchat}) : super(key: key);
+  final ChatModel chatModel;
+  final ChatModel sourchat;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (contex) => IndividualPage(
 
+                )));
       },
       child: Column(
         children: [
@@ -16,7 +24,7 @@ class CustomCard extends StatelessWidget {
             leading: CircleAvatar(
               radius: 30,
               child: SvgPicture.asset(
-                "assets/person.svg",
+                chatModel.isGroup ? "assets/groups.svg" : "assets/person.svg",
                 color: Colors.white,
                 height: 36,
                 width: 36,
@@ -24,7 +32,7 @@ class CustomCard extends StatelessWidget {
               backgroundColor: Colors.blueGrey,
             ),
             title: Text(
-             " chatModel.name",
+              chatModel.name,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -37,14 +45,14 @@ class CustomCard extends StatelessWidget {
                   width: 3,
                 ),
                 Text(
-                  "chatModel.currentMessage",
+                  chatModel.currentMessage,
                   style: TextStyle(
                     fontSize: 13,
                   ),
                 ),
               ],
             ),
-            trailing: Text("time"),
+            trailing: Text(chatModel.time),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20, left: 80),
