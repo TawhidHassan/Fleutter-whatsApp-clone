@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whatsapp_clone/CustomUi/CustomCard.dart';
 import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
+import 'package:flutter_whatsapp_clone/Screens/SelectContactScreen.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
      floatingActionButton: FloatingActionButton(
        onPressed: (){
-
+          Navigator.push(context, MaterialPageRoute(builder: (builder)=>SelectContact()));
        },
        child: Icon(Icons.chat),
      ),
