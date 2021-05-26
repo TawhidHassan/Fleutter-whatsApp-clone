@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsapp_clone/CustomUi/AvatarCard.dart';
 import 'package:flutter_whatsapp_clone/CustomUi/ContactCard.dart';
 import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
 
@@ -87,7 +88,41 @@ class _CreateGroupState extends State<CreateGroup> {
                   ),
                 );
               }
+          ),
+          groupmember.length > 0
+              ? Align(
+            child: Column(
+              children: [
+                Container(
+                  height: 75,
+                  color: Colors.white,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: contacts.length,
+                      itemBuilder: (context, index) {
+                        if (contacts[index].select == true)
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                groupmember.remove(contacts[index]);
+                                contacts[index].select = false;
+                              });
+                            },
+                            child: AvatarCard(
+                              chatModel: contacts[index],
+                            ),
+                          );
+                        return Container();
+                      }),
+                ),
+                Divider(
+                  thickness: 1,
+                ),
+              ],
+            ),
+            alignment: Alignment.topCenter,
           )
+              : Container(),
         ],
       ),
 
