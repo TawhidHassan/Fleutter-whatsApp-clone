@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_whatsapp_clone/Screens/CameraViewPage.dart';
@@ -17,6 +19,7 @@ class _cameraScreenState extends State<cameraScreen> {
   bool flash = false;
   double transform = 0;
   bool isRecoring = false;
+  bool iscamerafront = true;
   @override
   void initState() {
     super.initState();
@@ -123,9 +126,13 @@ class _cameraScreenState extends State<cameraScreen> {
                               ),
                               onPressed: () async {
                                 setState(() {
-
+                                  iscamerafront = !iscamerafront;
+                                  transform = transform + pi;
                                 });
-
+                                int cameraPos = iscamerafront ? 0 : 1;
+                                _cameraController = CameraController(
+                                    cameras[cameraPos], ResolutionPreset.high);
+                                cameraValue = _cameraController.initialize();
                               }),
                         ],
                       ),
