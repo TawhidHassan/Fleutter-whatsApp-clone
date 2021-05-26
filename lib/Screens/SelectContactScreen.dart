@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whatsapp_clone/CustomUi/ButtonCard.dart';
 import 'package:flutter_whatsapp_clone/CustomUi/ContactCard.dart';
 import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
+import 'package:flutter_whatsapp_clone/Screens/CreateGroup.dart';
 
 
 class SelectContact extends StatefulWidget {
@@ -90,7 +91,7 @@ class _SelectContactState extends State<SelectContact> {
               if (index == 0) {
                 return InkWell(
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (builder)=>CreateGroup()));
                   },
                   child: ButtonCard(
                     icon: Icons.group,
