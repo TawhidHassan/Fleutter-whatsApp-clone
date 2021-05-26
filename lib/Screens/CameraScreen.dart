@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_whatsapp_clone/Screens/CameraViewPage.dart';
 
 List<CameraDescription> cameras;
 
@@ -20,6 +21,13 @@ class _cameraScreenState extends State<cameraScreen> {
     super.initState();
     _cameraController = CameraController(cameras[0], ResolutionPreset.high);
     cameraValue = _cameraController.initialize();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _cameraController.dispose();
   }
 
   @override
@@ -78,7 +86,7 @@ class _cameraScreenState extends State<cameraScreen> {
 
                             },
                             onTap: () {
-
+                              takePhoto(context);
                             },
                             child: isRecoring
                                 ? Icon(
@@ -126,5 +134,15 @@ class _cameraScreenState extends State<cameraScreen> {
             ]
         )
     );
+  }
+
+  void takePhoto(BuildContext context) async {
+    XFile file = await _cameraController.takePicture();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (builder) => CameraViewPage(
+              path: file.path,
+            )));
   }
 }
