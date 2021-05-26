@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_whatsapp_clone/Screens/CameraViewPage.dart';
+import 'package:flutter_whatsapp_clone/Screens/VideoViewPage.dart';
 
 List<CameraDescription> cameras;
 
@@ -79,11 +80,22 @@ class _cameraScreenState extends State<cameraScreen> {
                               }),
                           GestureDetector(
                             onLongPress: () async {
-
-
+                              await _cameraController.startVideoRecording();
+                              setState(() {
+                                isRecoring = true;
+                              });
                             },
                             onLongPressUp: () async {
-
+                              XFile videopath = await _cameraController.stopVideoRecording();
+                              setState(() {
+                                isRecoring = false;
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => VideoViewPage(
+                                        path: videopath.path,
+                                      )));
                             },
                             onTap: () {
                               takePhoto(context);
