@@ -147,132 +147,222 @@ class _IndividualPageState extends State<IndividualPage> {
           body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-              child: WillPopScope(
-                child: Stack(
-                  children: [
-                    ListView(),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                               Row(
-                                 children: [
-                                   Container(
-                                     width: MediaQuery.of(context).size.width - 60,
-                                     child: Card(
-                                       margin: EdgeInsets.only(left: 2, right: 2, bottom: 8),
-                                       shape: RoundedRectangleBorder(
-                                         borderRadius: BorderRadius.circular(25),
-                                       ),
-                                       child: TextFormField(
-                                         controller: _controller,
-                                         focusNode: focusNode,
-                                         textAlignVertical: TextAlignVertical.center,
-                                         keyboardType: TextInputType.multiline,
-                                         maxLines: 5,
-                                         minLines: 1,
-                                         onChanged: (value) {
-                                           if (_controller.text!="") {
-                                             setState(() {
-                                               sendButton = true;
-                                             });
-                                           } else {
-                                             setState(() {
-                                               sendButton = false;
-                                             });
-                                           }
-                                         },
-                                         decoration: InputDecoration(
-                                           border: InputBorder.none,
-                                           hintText: "Type a message",
-                                           hintStyle: TextStyle(color: Colors.grey),
-                                           prefixIcon: IconButton(
-                                             icon: Icon(
-                                               show
-                                                   ? Icons.keyboard
-                                                   : Icons.emoji_emotions_outlined,
-                                             ),
-                                             onPressed: () {
-                                               if (!show) {
-                                                 focusNode.unfocus();
-                                                 focusNode.canRequestFocus = false;
-                                               }
-                                               setState(() {
-                                                 show = !show;
-                                               });
-                                             },
-                                           ),
-                                           suffixIcon: Row(
-                                             mainAxisSize: MainAxisSize.min,
-                                             children: [
-                                               IconButton(
-                                                 icon: Icon(Icons.attach_file),
-                                                 onPressed: () {
+            child: WillPopScope(
+              child: Stack(
+                children: [
+                  ListView(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width - 60,
+                              child: Card(
+                                margin: EdgeInsets.only(left: 2, right: 2, bottom: 8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: TextFormField(
+                                  controller: _controller,
+                                  focusNode: focusNode,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 5,
+                                  minLines: 1,
+                                  onChanged: (value) {
+                                    if (_controller.text!="") {
+                                      setState(() {
+                                        sendButton = true;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        sendButton = false;
+                                      });
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Type a message",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: IconButton(
+                                      icon: Icon(
+                                        show
+                                            ? Icons.keyboard
+                                            : Icons.emoji_emotions_outlined,
+                                      ),
+                                      onPressed: () {
+                                        if (!show) {
+                                          focusNode.unfocus();
+                                          focusNode.canRequestFocus = false;
+                                        }
+                                        setState(() {
+                                          show = !show;
+                                        });
+                                      },
+                                    ),
+                                    suffixIcon: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(Icons.attach_file),
+                                          onPressed: () {
+                                            if (!show) {
+                                              focusNode.unfocus();
+                                              focusNode.canRequestFocus = false;
+                                            }
+                                            showModalBottomSheet(
+                                                backgroundColor:
+                                                Colors.transparent,
+                                                context: context,
+                                                builder: (builder) =>
+                                                    bottomSheet());
 
-                                                 },
-                                               ),
-                                               IconButton(
-                                                 icon: Icon(Icons.camera_alt),
-                                                 onPressed: () {
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.camera_alt),
+                                          onPressed: () {
 
-                                                 },
-                                               ),
-                                             ],
-                                           ),
-                                           contentPadding: EdgeInsets.all(5),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   Padding(
-                                     padding: const EdgeInsets.only(
-                                       bottom: 8,
-                                       right: 2,
-                                       left: 2,
-                                     ),
-                                     child: CircleAvatar(
-                                       radius: 25,
-                                       backgroundColor: Color(0xFF128C7E),
-                                       child: IconButton(
-                                         icon: Icon(
-                                           sendButton ? Icons.send : Icons.mic,
-                                           color: Colors.white,
-                                         ),
-                                         onPressed: () {
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 8,
+                                right: 2,
+                                left: 2,
+                              ),
+                              child: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Color(0xFF128C7E),
+                                child: IconButton(
+                                  icon: Icon(
+                                    sendButton ? Icons.send : Icons.mic,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
 
 
-                                         },
-                                       ),
-                                     ),
-                                   ),
-                                 ],
-                               ),
-                               show ? emojiSelect() : Container(),
-
-                        ],
-
-                      ),
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        show ? emojiSelect() : Container(),
+                      ],
                     ),
-                  ],
-                ),
-                onWillPop:(){
-                  if (show) {
-                    setState(() {
-                      show = false;
-                    });
-                  } else {
-                    Navigator.pop(context);
-                  }
-                  return Future.value(false);
-                },
+                  ),
+                ],
               ),
+              onWillPop:(){
+                if (show) {
+                  setState(() {
+                    show = false;
+                  });
+                } else {
+                  Navigator.pop(context);
+                }
+                return Future.value(false);
+              },
+            ),
 
           ),
         ),
       ],
     );
   }
+
+
+  Widget bottomSheet() {
+    return Container(
+        height: 278,
+        width: MediaQuery.of(context).size.width,
+        child: Card(
+            margin: const EdgeInsets.all(18.0),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          iconCreation(
+                              Icons.insert_drive_file, Colors.indigo, "Document"),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          iconCreation(Icons.camera_alt, Colors.pink, "Camera"),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          iconCreation(Icons.insert_photo, Colors.purple, "Gallery"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          iconCreation(Icons.headset, Colors.orange, "Audio"),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          iconCreation(Icons.location_pin, Colors.teal, "Location"),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          iconCreation(Icons.person, Colors.blue, "Contact"),
+                        ],
+                      ),
+                    ]
+                )
+            )
+        )
+    );
+  }
+
+  Widget iconCreation(IconData icons, Color color, String text) {
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: color,
+            child: Icon(
+              icons,
+              // semanticLabel: "Help",
+              size: 29,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              // fontWeight: FontWeight.w100,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
 
   Widget emojiSelect() {
     return EmojiPicker(
