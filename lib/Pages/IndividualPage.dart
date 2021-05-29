@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_whatsapp_clone/CustomUi/OwnMessageCard.dart';
 import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
 import 'package:flutter_whatsapp_clone/Model/MessageModel.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
 class IndividualPage extends StatefulWidget {
@@ -25,10 +26,13 @@ class _IndividualPageState extends State<IndividualPage> {
   TextEditingController _controller = TextEditingController();
   ScrollController _scrollController = ScrollController();
   List<MessageModel> messages = [];
+
+  IO.Socket socket;
+
   @override
   void initState() {
     super.initState();
-
+    connect();
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         setState(() {
@@ -36,8 +40,26 @@ class _IndividualPageState extends State<IndividualPage> {
         });
       }
     });
-
   }
+
+  void connect() {
+    // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
+    socket = IO.io("http://172.28.0.1:5000", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.connect();
+    socket.onConnect((data) {
+      print("Connected");
+      socket.on("message", (msg) {
+        print(msg);
+        // setMessage("destination", msg["message"]);
+      });
+    });
+    print(socket.connected);
+    socket.emit("/test","hello world");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,16 +175,16 @@ class _IndividualPageState extends State<IndividualPage> {
             child: WillPopScope(
               child: Stack(
                 children: [
-                  Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        controller: _scrollController,
-                        itemCount:10,
-                        itemBuilder: (context,index){
-                          return OwnMessageCard(message: "sfccccccccccccccccccccccccccccccccccccjsjss",time: "22:2",);
-                        },
-                      )
-                  ),
+                  // Expanded(
+                  //     child: ListView.builder(
+                  //       shrinkWrap: true,
+                  //       controller: _scrollController,
+                  //       itemCount:10,
+                  //       itemBuilder: (context,index){
+                  //         return OwnMessageCard(message: "sfccccccccccccccccccccccccccccccccccccjsjss",time: "22:2",);
+                  //       },
+                  //     )
+                  // ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Column(
