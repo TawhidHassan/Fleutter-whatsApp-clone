@@ -56,6 +56,8 @@ class _IndividualPageState extends State<IndividualPage> {
       socket.on("message", (msg) {
         print(msg);
         setMessage("destination", msg["message"]);
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 300), curve: Curves.easeOut);
       });
     });
     print(socket.connected);
@@ -191,7 +193,7 @@ class _IndividualPageState extends State<IndividualPage> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: WillPopScope(
-              child: Stack(
+              child: Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
@@ -318,6 +320,12 @@ class _IndividualPageState extends State<IndividualPage> {
                                   ),
                                   onPressed: () {
                                     if (sendButton) {
+                                      _scrollController.animateTo(
+                                          _scrollController
+                                              .position.maxScrollExtent,
+                                          duration:
+                                          Duration(milliseconds: 300),
+                                          curve: Curves.easeOut);
                                       sendMessage( _controller.text,
                                           widget.sourchat.id,
                                           widget.chatModel.id);
