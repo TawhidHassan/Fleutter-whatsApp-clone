@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
 import 'package:flutter_whatsapp_clone/Pages/CameraPage.dart';
 import 'package:flutter_whatsapp_clone/Pages/ChatPage.dart';
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({Key key, this.chatmodels, this.sourchat}) : super(key: key);
+  final List<ChatModel> chatmodels;
+  final ChatModel sourchat;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -74,7 +78,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           controller: _controller,
           children: [
             CameraPage(),
-            ChatPage(),
+            ChatPage(
+              chatmodels: widget.chatmodels,
+              sourchat: widget.sourchat,
+            ),
             Text("STATUS"),
             Text("Calls"),
           ],
