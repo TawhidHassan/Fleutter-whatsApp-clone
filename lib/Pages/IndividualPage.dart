@@ -5,6 +5,7 @@ import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_whatsapp_clone/CustomUi/OwnMessageCard.dart';
+import 'package:flutter_whatsapp_clone/CustomUi/ReplyCard.dart';
 import 'package:flutter_whatsapp_clone/Model/ChatModel.dart';
 import 'package:flutter_whatsapp_clone/Model/MessageModel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -54,7 +55,7 @@ class _IndividualPageState extends State<IndividualPage> {
       print("Connected");
       socket.on("message", (msg) {
         print(msg);
-        // setMessage("destination", msg["message"]);
+        setMessage("destination", msg["message"]);
       });
     });
     print(socket.connected);
@@ -62,11 +63,21 @@ class _IndividualPageState extends State<IndividualPage> {
   }
 
   void sendMessage(String message, int sourceId, int targetId) {
-
+    setMessage("source", message);
     socket.emit("message",
         {"message": message, "sourceId": sourceId, "targetId": targetId});
   }
+  void setMessage(String type, String message) {
+    MessageModel messageModel = MessageModel(
+        type: type,
+        message: message,
+        time: DateTime.now().toString().substring(10, 16));
+    print(messages);
 
+    setState(() {
+      messages.add(messageModel);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,16 +193,31 @@ class _IndividualPageState extends State<IndividualPage> {
             child: WillPopScope(
               child: Stack(
                 children: [
-                  // Expanded(
-                  //     child: ListView.builder(
-                  //       shrinkWrap: true,
-                  //       controller: _scrollController,
-                  //       itemCount:10,
-                  //       itemBuilder: (context,index){
-                  //         return OwnMessageCard(message: "sfccccccccccccccccccccccccccccccccccccjsjss",time: "22:2",);
-                  //       },
-                  //     )
-                  // ),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      itemCount: messages.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == messages.length) {
+                          return Container(
+                            height: 70,
+                          );
+                        }
+                        if (messages[index].type == "source") {
+                          return OwnMessageCard(
+                            message: messages[index].message,
+                            time: messages[index].time,
+                          );
+                        } else {
+                          return ReplyCard(
+                            message: messages[index].message,
+                            time: messages[index].time,
+                          );
+                        }
+                      },
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Column(
