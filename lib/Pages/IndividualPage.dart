@@ -49,6 +49,7 @@ class _IndividualPageState extends State<IndividualPage> {
       "autoConnect": false,
     });
     socket.connect();
+    socket.emit("signin",widget.sourchat.id);
     socket.onConnect((data) {
       print("Connected");
       socket.on("message", (msg) {
@@ -57,7 +58,13 @@ class _IndividualPageState extends State<IndividualPage> {
       });
     });
     print(socket.connected);
-    socket.emit("/test","hello world");
+
+  }
+
+  void sendMessage(String message, int sourceId, int targetId) {
+
+    socket.emit("message",
+        {"message": message, "sourceId": sourceId, "targetId": targetId});
   }
 
 
@@ -284,8 +291,15 @@ class _IndividualPageState extends State<IndividualPage> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-
-
+                                    if (sendButton) {
+                                      sendMessage( _controller.text,
+                                          widget.sourchat.id,
+                                          widget.chatModel.id);
+                                      _controller.clear();
+                                      setState(() {
+                                        sendButton = false;
+                                      });
+                                    }
                                   },
                                 ),
                               ),
